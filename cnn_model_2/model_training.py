@@ -132,11 +132,28 @@ class CongestionPredictor:
         train_pred = self.model.predict(X_train)
         val_pred = self.model.predict(X_val)
         
+        from sklearn.metrics import f1_score
+        
         train_acc = accuracy_score(y_train, train_pred)
         val_acc = accuracy_score(y_val, val_pred)
         
-        print(f"\nTraining accuracy: {train_acc:.4f}")
-        print(f"Validation accuracy: {val_acc:.4f}")
+        train_f1_weighted = f1_score(y_train, train_pred, average='weighted')
+        val_f1_weighted = f1_score(y_val, val_pred, average='weighted')
+        
+        train_f1_macro = f1_score(y_train, train_pred, average='macro')
+        val_f1_macro = f1_score(y_val, val_pred, average='macro')
+        
+        print(f"\n{'='*60}")
+        print("TRAINING METRICS")
+        print(f"{'='*60}")
+        print(f"Training:")
+        print(f"  Accuracy:           {train_acc:.4f} ({train_acc*100:.2f}%)")
+        print(f"  F1 Score (Weighted): {train_f1_weighted:.4f}")
+        print(f"  F1 Score (Macro):    {train_f1_macro:.4f}")
+        print(f"\nValidation:")
+        print(f"  Accuracy:           {val_acc:.4f} ({val_acc*100:.2f}%)")
+        print(f"  F1 Score (Weighted): {val_f1_weighted:.4f}")
+        print(f"  F1 Score (Macro):    {val_f1_macro:.4f}")
         
         # Feature importance
         if hasattr(self.model, 'feature_importances_'):
@@ -153,7 +170,9 @@ class CongestionPredictor:
                 print(importance_df.head(10).to_string(index=False))
         
         # Classification report
-        print("\nValidation Classification Report:")
+        print(f"\n{'='*60}")
+        print("DETAILED CLASSIFICATION REPORT")
+        print(f"{'='*60}")
         print(classification_report(
             y_val, val_pred,
             target_names=self.label_encoder.classes_
@@ -162,6 +181,10 @@ class CongestionPredictor:
         return {
             'train_accuracy': train_acc,
             'val_accuracy': val_acc,
+            'train_f1_weighted': train_f1_weighted,
+            'val_f1_weighted': val_f1_weighted,
+            'train_f1_macro': train_f1_macro,
+            'val_f1_macro': val_f1_macro,
             'model_type': self.model_type,
             'n_features': X.shape[1]
         }

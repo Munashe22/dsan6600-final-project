@@ -58,13 +58,15 @@ class AdvancedPredictor:
     
     def predict_test_set(self,
                         test_metadata_path: str,
-                        output_path: str) -> pd.DataFrame:
+                        output_path: str,
+                        max_batches: int = None) -> pd.DataFrame:
         """
         Generate predictions for test set
         
         Args:
             test_metadata_path: Path to test metadata CSV
             output_path: Path to save predictions
+            max_batches: Maximum number of video batches to process (None = all)
             
         Returns:
             DataFrame with predictions
@@ -105,6 +107,13 @@ class AdvancedPredictor:
         all_videos = list(set(all_videos))
         print(f"Total unique videos: {len(all_videos)}")
         
+        # Limit videos if max_batches specified
+        if max_batches:
+            max_videos = max_batches * self.gcs_processor.batch_size
+            if len(all_videos) > max_videos:
+                print(f"⚠️  Limiting to {max_batches} batches ({max_videos} videos)")
+                all_videos = all_videos[:max_videos]
+        
         # Process videos in batches and extract features
         video_features = {}
         
@@ -112,6 +121,11 @@ class AdvancedPredictor:
             batch = all_videos[i:i + self.gcs_processor.batch_size]
             batch_num = i // self.gcs_processor.batch_size + 1
             total_batches = len(all_videos) // self.gcs_processor.batch_size + 1
+            
+            # Stop if reached max_batches
+            if max_batches and batch_num > max_batches:
+                print(f"\n✓ Reached max_batches limit ({max_batches}), stopping")
+                break
             
             print(f"\nBatch {batch_num}/{total_batches}")
             
@@ -137,6 +151,9 @@ class AdvancedPredictor:
         
         print(f"\n✓ Extracted features from {len(video_features)} videos")
         
+        if len(video_features) > 0:
+            print(f"Sample video names in features: {list(video_features.keys())[:3]}")
+        
         # Generate predictions for each test period
         print("\n" + "="*80)
         print("GENERATING PREDICTIONS")
@@ -158,15 +175,21 @@ class AdvancedPredictor:
             
             # Combine features from all cameras for each segment
             segment_features = []
+            matched_count = 0
             
             for _, row in input_data.iterrows():
                 seg_features = {}
+                seg_matched = 0
                 
                 # Add features from each camera
                 for camera in range(1, 5):
                     col_name = f'cam{camera}_filename'
                     if col_name in row:
-                        video_name = row[col_name]
+                        video_path = row[col_name]
+                        
+                        # Extract just the filename (video_features uses filename only)
+                        from pathlib import Path
+                        video_name = Path(video_path).name
                         
                         if video_name in video_features:
                             cam_feats = video_features[video_name]
@@ -174,50 +197,98 @@ class AdvancedPredictor:
                             for key, value in cam_feats.items():
                                 if key not in ['video_path', 'video_name']:
                                     seg_features[f'cam{camera}_{key}'] = value
+                            seg_matched += 1
                 
                 if seg_features:
                     segment_features.append(seg_features)
+                    if seg_matched > 0:
+                        matched_count += 1
+            
+            print(f"  Matched features for {matched_count}/{len(input_data)} segments")
             
             if not segment_features:
-                print(f"  No features available for period {period_id}")
+                print(f"  ⚠️  No features available for period {period_id}")
+                print(f"  This means: videos in test metadata don't match extracted features")
+                if len(input_data) > 0:
+                    sample_path = input_data.iloc[0]['cam1_filename']
+                    sample_name = Path(sample_path).name
+                    print(f"  Sample test video: {sample_path}")
+                    print(f"  Extracted filename: {sample_name}")
+                    print(f"  Is in features? {sample_name in video_features}")
                 continue
             
+            # Check if last segment has complete camera coverage
+            last_segment = segment_features[-1]
+            
+            # Count camera features (each camera should have ~50 features)
+            cam_counts = {f'cam{i}': 0 for i in range(1, 5)}
+            for key in last_segment.keys():
+                for cam in range(1, 5):
+                    if key.startswith(f'cam{cam}_'):
+                        cam_counts[f'cam{cam}'] += 1
+                        break
+            
+            missing_cameras = [cam for cam, count in cam_counts.items() if count == 0]
+            
+            if missing_cameras:
+                print(f"  ⚠️  Segment missing cameras: {missing_cameras}")
+                print(f"  Camera feature counts: {cam_counts}")
+                print(f"  Need all 4 cameras for prediction - skipping this period")
+                print(f"  TIP: Increase --max-batches to process more videos")
+                continue
+            
+            print(f"  ✓ Complete camera coverage: {cam_counts}")
+            
             # Use last segment (minute 15) for prediction
-            last_segment_features = pd.DataFrame([segment_features[-1]])
+            last_segment_features = pd.DataFrame([last_segment])
             
             # Make predictions for minutes 18-22
             for minute in range(18, 23):
-                # Prepare features
-                X_enter, _ = self.enter_predictor.prepare_features(
-                    last_segment_features,
-                    target_col=None,
-                    fit_scaler=False
-                )
-                
-                X_exit, _ = self.exit_predictor.prepare_features(
-                    last_segment_features,
-                    target_col=None,
-                    fit_scaler=False
-                )
-                
-                # Predict
-                enter_pred = self.enter_predictor.predict(X_enter)[0]
-                exit_pred = self.exit_predictor.predict(X_exit)[0]
-                
-                # Get confidence
-                enter_proba = self.enter_predictor.predict_proba(X_enter)[0]
-                exit_proba = self.exit_predictor.predict_proba(X_exit)[0]
-                
-                prediction = {
-                    'test_period_id': period_id if period_id else 'test',
-                    'minute': minute,
-                    'congestion_enter_rating': enter_pred,
-                    'congestion_exit_rating': exit_pred,
-                    'enter_confidence': max(enter_proba),
-                    'exit_confidence': max(exit_proba)
-                }
-                
-                all_predictions.append(prediction)
+                try:
+                    # Prepare features
+                    X_enter, _ = self.enter_predictor.prepare_features(
+                        last_segment_features,
+                        target_col=None,
+                        fit_scaler=False
+                    )
+                    
+                    X_exit, _ = self.exit_predictor.prepare_features(
+                        last_segment_features,
+                        target_col=None,
+                        fit_scaler=False
+                    )
+                    
+                    # Predict
+                    enter_pred = self.enter_predictor.predict(X_enter)[0]
+                    exit_pred = self.exit_predictor.predict(X_exit)[0]
+                    
+                    # Get confidence
+                    enter_proba = self.enter_predictor.predict_proba(X_enter)[0]
+                    exit_proba = self.exit_predictor.predict_proba(X_exit)[0]
+                    
+                    prediction = {
+                        'test_period_id': period_id if period_id else 'test',
+                        'minute': minute,
+                        'congestion_enter_rating': enter_pred,
+                        'congestion_exit_rating': exit_pred,
+                        'enter_confidence': max(enter_proba),
+                        'exit_confidence': max(exit_proba)
+                    }
+                    
+                    # Add ground truth if available (for evaluation)
+                    if 'congestion_enter_rating' in input_data.columns:
+                        # Get the ground truth for this minute if it exists
+                        minute_data = period_data[period_data['minute'] == minute]
+                        if len(minute_data) > 0:
+                            prediction['true_congestion_enter_rating'] = minute_data.iloc[0]['congestion_enter_rating']
+                            prediction['true_congestion_exit_rating'] = minute_data.iloc[0]['congestion_exit_rating']
+                    
+                    all_predictions.append(prediction)
+                    
+                except Exception as e:
+                    print(f"  ⚠️  Error predicting minute {minute}: {e}")
+                    print(f"  Feature count mismatch - segment may be incomplete")
+                    break
         
         # Create predictions DataFrame
         predictions_df = pd.DataFrame(all_predictions)
@@ -225,7 +296,7 @@ class AdvancedPredictor:
         # Validate
         if len(predictions_df) > 0:
             print("\n" + "="*80)
-            print("VALIDATION")
+            print("VALIDATION AND METRICS")
             print("="*80)
             
             if validate_predictions(predictions_df):
@@ -233,15 +304,78 @@ class AdvancedPredictor:
             else:
                 print("✗ Warning: Predictions may have issues")
             
+            # Calculate metrics if we have ground truth labels
+            has_ground_truth = False
+            if 'true_congestion_enter_rating' in predictions_df.columns and 'true_congestion_exit_rating' in predictions_df.columns:
+                has_ground_truth = True
+            
+            if has_ground_truth:
+                print("\n" + "="*80)
+                print("TEST SET PERFORMANCE METRICS")
+                print("="*80)
+                
+                from sklearn.metrics import accuracy_score, f1_score, classification_report, confusion_matrix
+                
+                # Entrance metrics
+                print("\n📊 ENTRANCE CONGESTION METRICS:")
+                print("-" * 60)
+                
+                y_true_enter = predictions_df['true_congestion_enter_rating']
+                y_pred_enter = predictions_df['congestion_enter_rating']
+                
+                acc_enter = accuracy_score(y_true_enter, y_pred_enter)
+                f1_enter = f1_score(y_true_enter, y_pred_enter, average='weighted')
+                f1_macro_enter = f1_score(y_true_enter, y_pred_enter, average='macro')
+                
+                print(f"  Accuracy:           {acc_enter:.4f} ({acc_enter*100:.2f}%)")
+                print(f"  F1 Score (Weighted): {f1_enter:.4f}")
+                print(f"  F1 Score (Macro):    {f1_macro_enter:.4f}")
+                
+                print("\n  Classification Report:")
+                print(classification_report(y_true_enter, y_pred_enter, zero_division=0))
+                
+                # Exit metrics
+                print("\n📊 EXIT CONGESTION METRICS:")
+                print("-" * 60)
+                
+                y_true_exit = predictions_df['true_congestion_exit_rating']
+                y_pred_exit = predictions_df['congestion_exit_rating']
+                
+                acc_exit = accuracy_score(y_true_exit, y_pred_exit)
+                f1_exit = f1_score(y_true_exit, y_pred_exit, average='weighted')
+                f1_macro_exit = f1_score(y_true_exit, y_pred_exit, average='macro')
+                
+                print(f"  Accuracy:           {acc_exit:.4f} ({acc_exit*100:.2f}%)")
+                print(f"  F1 Score (Weighted): {f1_exit:.4f}")
+                print(f"  F1 Score (Macro):    {f1_macro_exit:.4f}")
+                
+                print("\n  Classification Report:")
+                print(classification_report(y_true_exit, y_pred_exit, zero_division=0))
+                
+                # Overall summary
+                print("\n" + "="*80)
+                print("OVERALL SUMMARY")
+                print("="*80)
+                print(f"  Entrance - Accuracy: {acc_enter*100:.2f}%, F1: {f1_enter:.4f}")
+                print(f"  Exit     - Accuracy: {acc_exit*100:.2f}%, F1: {f1_exit:.4f}")
+                print(f"  Average  - Accuracy: {(acc_enter+acc_exit)/2*100:.2f}%, F1: {(f1_enter+f1_exit)/2:.4f}")
+            else:
+                print("\n⚠️  No ground truth labels in test data")
+                print("Cannot calculate accuracy/F1 score without true labels")
+            
             # Summary
-            print(f"\nPrediction Summary:")
+            print(f"\n{'='*80}")
+            print("PREDICTION SUMMARY")
+            print(f"{'='*80}")
             print(f"  Total predictions: {len(predictions_df)}")
             print(f"\n  Entrance rating distribution:")
             for rating, count in predictions_df['congestion_enter_rating'].value_counts().items():
-                print(f"    {rating}: {count}")
+                pct = count / len(predictions_df) * 100
+                print(f"    {rating:15s}: {count:4d} ({pct:5.1f}%)")
             print(f"\n  Exit rating distribution:")
             for rating, count in predictions_df['congestion_exit_rating'].value_counts().items():
-                print(f"    {rating}: {count}")
+                pct = count / len(predictions_df) * 100
+                print(f"    {rating:15s}: {count:4d} ({pct:5.1f}%)")
             
             # Save
             predictions_df.to_csv(output_path, index=False)
@@ -278,6 +412,8 @@ def main():
                        help='GCS bucket name')
     parser.add_argument('--batch-size', type=int, default=10,
                        help='Batch size for processing')
+    parser.add_argument('--max-batches', type=int, default=None,
+                       help='Maximum number of batches to process (for testing/limiting)')
     parser.add_argument('--no-yolo', action='store_true',
                        help='Disable YOLO detection')
     parser.add_argument('--no-cnn', action='store_true',
@@ -298,7 +434,8 @@ def main():
     # Generate predictions
     predictor.predict_test_set(
         test_metadata_path=args.test_metadata,
-        output_path=args.output
+        output_path=args.output,
+        max_batches=args.max_batches
     )
 
 

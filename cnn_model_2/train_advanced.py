@@ -118,6 +118,29 @@ def train_from_gcs(bucket_name: str = 'brb-traffic',
         print("Feature extraction complete. Save features and add labels manually.")
         return
     
+    # Check if we have actual features (not just labels)
+    reserved_columns = ['segment_id', 'congestion_enter_rating', 'congestion_exit_rating', 
+                       'time_segment_id', 'date', 'timestamp_start', 'cycle_phase']
+    feature_columns = [col for col in features_df.columns if col not in reserved_columns]
+    
+    print(f"  - Reserved columns (IDs, labels): {len(features_df.columns) - len(feature_columns)}")
+    print(f"  - Actual feature columns: {len(feature_columns)}")
+    
+    if len(feature_columns) == 0:
+        print("\n" + "="*80)
+        print("❌ ERROR: NO FEATURES EXTRACTED!")
+        print("="*80)
+        print("\nThe videos were processed but features weren't properly extracted.")
+        print("This usually means:")
+        print("  1. Video paths in metadata don't match actual filenames")
+        print("  2. Videos failed to process (check errors above)")
+        print("  3. Feature extraction code has a bug")
+        print("\nDebugging:")
+        print(f"  - Check: {output_path / 'extracted_features.csv'}")
+        print("  - Should have 200+ columns, not just 3")
+        print("  - Re-run with the fixed code (filename matching)")
+        return
+    
     # Data augmentation
     print("\n" + "="*80)
     print("STEP 4: DATA AUGMENTATION AND PREPROCESSING")

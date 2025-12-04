@@ -441,21 +441,31 @@ class GCSBatchProcessor:
         
         # Combine with metadata
         print("\nCombining features with metadata...")
+        print(f"Video features extracted: {len(video_features)}")
+        print(f"Metadata segments: {len(metadata)}")
+        
         all_segment_features = []
+        matched_videos = 0
         
         for _, row in metadata.iterrows():
             segment_features = {'segment_id': row.get('segment_id', '')}
+            segment_matched = 0
             
             # Get features from each camera
             for camera in range(1, 5):
-                video_name = row[f'cam{camera}_filename']
+                video_path_in_metadata = row[f'cam{camera}_filename']
                 
-                if video_name in video_features:
-                    cam_features = video_features[video_name]
+                # Extract just the filename (video_features uses filename only)
+                video_filename = Path(video_path_in_metadata).name
+                
+                if video_filename in video_features:
+                    cam_features = video_features[video_filename]
                     # Add camera prefix
                     for key, value in cam_features.items():
                         if key not in ['video_path', 'video_name']:
                             segment_features[f'cam{camera}_{key}'] = value
+                    segment_matched += 1
+                    matched_videos += 1
             
             # Add labels if present
             if 'congestion_enter_rating' in row:
@@ -465,6 +475,9 @@ class GCSBatchProcessor:
             
             all_segment_features.append(segment_features)
         
+        print(f"Successfully matched: {matched_videos} camera videos")
+        print(f"Segments with at least 1 camera: {sum(1 for s in all_segment_features if len(s) > 3)}")
+        
         # Create DataFrame
         features_df = pd.DataFrame(all_segment_features)
         
@@ -472,7 +485,19 @@ class GCSBatchProcessor:
         features_df.to_csv(output_path, index=False)
         print(f"\n✓ Saved training features to {output_path}")
         print(f"Total segments: {len(features_df)}")
-        print(f"Total features: {len(features_df.columns)}")
+        print(f"Total features per segment: {len(features_df.columns)}")
+        print(f"  - segment_id: 1")
+        print(f"  - labels: 2")
+        print(f"  - extracted features: {len(features_df.columns) - 3}")
+        
+        if len(features_df.columns) <= 3:
+            print("\n⚠️  WARNING: No features extracted!")
+            print("Only labels found, no video features.")
+            print("This means videos were not matched with metadata.")
+            print("\nDebugging info:")
+            print(f"  - Video features in dictionary: {len(video_features)}")
+            print(f"  - Sample video names in features: {list(video_features.keys())[:3]}")
+            print(f"  - Sample paths in metadata: {metadata['cam1_filename'].head(3).tolist()}")
         
         return features_df
     

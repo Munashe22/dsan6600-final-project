@@ -1,137 +1,137 @@
 Feature Name,Importance Score,Normalized Importance,Notes
-cam1_car_count,0.03344393810837811,0.03344393810837811,Additional traffic pattern indicator
-cam1_queue_length,0.028812029228871286,0.028812029228871286,Estimated queue length - critical for delay classification
-cam1_stopped_vehicles,0.027868502154295746,0.027868502154295746,Additional traffic pattern indicator
-cam1_speed_variance,0.026983268922937283,0.026983268922937283,Average speed estimate - lower speeds indicate congestion
-cam1_avg_vehicle_speed,0.023680488863310686,0.023680488863310686,Average speed estimate - lower speeds indicate congestion
-cam1_directional_flow_right,0.021777341284879306,0.021777341284879306,Additional traffic pattern indicator
-cam1_flow_rate,0.02050118385290981,0.02050118385290981,Vehicles per time unit - throughput measure
-cam1_truck_count,0.020024299345072914,0.020024299345072914,Additional traffic pattern indicator
-cam1_directional_flow_down,0.019414133066091615,0.019414133066091615,Additional traffic pattern indicator
-cam1_directional_flow_left,0.018634857650764072,0.018634857650764072,Additional traffic pattern indicator
-cam3_avg_vehicle_speed,0.018427259040396913,0.018427259040396913,Average speed estimate - lower speeds indicate congestion
-cam1_scene_embedding_mean,0.01838400386706072,0.01838400386706072,Additional traffic pattern indicator
-cam3_directional_flow_right,0.018239693671530707,0.018239693671530707,Additional traffic pattern indicator
-cam3_directional_flow_down,0.018090301313263873,0.018090301313263873,Additional traffic pattern indicator
-cam1_vehicles_exiting,0.017025763731870803,0.017025763731870803,Additional traffic pattern indicator
-cam1_motion_entropy,0.01687773565292165,0.01687773565292165,Vehicle movement patterns - distinguishes flowing vs stopped traffic
-cam3_flow_rate,0.01635297009171816,0.01635297009171816,Vehicles per time unit - throughput measure
-cam4_vehicles_exiting,0.015760750060825595,0.015760750060825595,Additional traffic pattern indicator
-cam3_vehicles_entering,0.015393882132582158,0.015393882132582158,Additional traffic pattern indicator
-cam3_vehicles_exiting,0.01527984171945659,0.01527984171945659,Additional traffic pattern indicator
-cam4_bus_count,0.015184404264684388,0.015184404264684388,Additional traffic pattern indicator
-cam3_vehicles_in_lanes_left,0.014123666104229897,0.014123666104229897,Additional traffic pattern indicator
-cam4_occupancy_by_zone_center,0.013749177982940806,0.013749177982940806,Measures road space occupied by vehicles - key congestion indicator
-cam3_directional_flow_up,0.013672732736523568,0.013672732736523568,Additional traffic pattern indicator
-cam4_vehicles_entering,0.013560670612756504,0.013560670612756504,Additional traffic pattern indicator
-cam3_queue_length,0.013428107836875681,0.013428107836875681,Estimated queue length - critical for delay classification
-cam3_occupancy_by_zone_center,0.01339499159048473,0.01339499159048473,Measures road space occupied by vehicles - key congestion indicator
-cam1_avg_motion_magnitude,0.013219232796058682,0.013219232796058682,Vehicle movement patterns - distinguishes flowing vs stopped traffic
-cam3_density_score,0.013219147368792317,0.013219147368792317,Additional traffic pattern indicator
-cam4_directional_flow_left,0.013040060237852136,0.013040060237852136,Additional traffic pattern indicator
-cam1_directional_flow_up,0.01303676578641487,0.01303676578641487,Additional traffic pattern indicator
-cam1_occupancy_by_zone_left,0.012997411655426736,0.012997411655426736,Measures road space occupied by vehicles - key congestion indicator
-cam3_occupancy_by_zone_middle,0.012995825688848104,0.012995825688848104,Measures road space occupied by vehicles - key congestion indicator
-cam4_scene_embedding_std,0.01289699890876807,0.01289699890876807,Additional traffic pattern indicator
-cam3_scene_embedding_mean,0.012895217900716467,0.012895217900716467,Additional traffic pattern indicator
-cam4_directional_flow_up,0.012789759778890035,0.012789759778890035,Additional traffic pattern indicator
-cam3_directional_flow_left,0.012030609201815099,0.012030609201815099,Additional traffic pattern indicator
-cam4_motorcycle_count,0.011891516585838978,0.011891516585838978,Additional traffic pattern indicator
-cam3_vehicles_in_lanes_top,0.011838629859742471,0.011838629859742471,Additional traffic pattern indicator
-cam3_motion_entropy,0.011683842794304695,0.011683842794304695,Vehicle movement patterns - distinguishes flowing vs stopped traffic
-cam4_vehicle_count,0.011550780129712833,0.011550780129712833,Number of vehicles detected - direct traffic volume measure
-cam3_car_count,0.011395013373886254,0.011395013373886254,Additional traffic pattern indicator
-cam4_vehicles_in_lanes_center,0.011392921575615344,0.011392921575615344,Additional traffic pattern indicator
-cam3_scene_embedding_std,0.011371293734394407,0.011371293734394407,Additional traffic pattern indicator
-cam3_avg_motion_magnitude,0.011207839216286401,0.011207839216286401,Vehicle movement patterns - distinguishes flowing vs stopped traffic
-cam4_car_count,0.011101641878361587,0.011101641878361587,Additional traffic pattern indicator
-cam1_scene_complexity,0.010921199448148972,0.010921199448148972,Additional traffic pattern indicator
-cam3_vehicles_in_lanes_center,0.010888735040982988,0.010888735040982988,Additional traffic pattern indicator
-cam4_truck_count,0.01045105219076217,0.01045105219076217,Additional traffic pattern indicator
-cam3_truck_count,0.010438211873111192,0.010438211873111192,Additional traffic pattern indicator
-cam4_occupancy_by_zone_middle,0.010403419309279939,0.010403419309279939,Measures road space occupied by vehicles - key congestion indicator
-cam4_directional_flow_down,0.010274999489825661,0.010274999489825661,Additional traffic pattern indicator
-cam4_speed_variance,0.010045144996439898,0.010045144996439898,Average speed estimate - lower speeds indicate congestion
-cam1_scene_embedding_std,0.009989189671518586,0.009989189671518586,Additional traffic pattern indicator
-cam4_flow_rate,0.009871439150594402,0.009871439150594402,Vehicles per time unit - throughput measure
-cam3_vehicle_count,0.009070957306967848,0.009070957306967848,Number of vehicles detected - direct traffic volume measure
-cam3_bus_count,0.008843187908399178,0.008843187908399178,Additional traffic pattern indicator
-cam3_stopped_vehicles,0.008637634005453152,0.008637634005453152,Additional traffic pattern indicator
-cam4_stopped_vehicles,0.008458791400931647,0.008458791400931647,Additional traffic pattern indicator
-cam4_vehicles_in_lanes_middle,0.008338869466255613,0.008338869466255613,Additional traffic pattern indicator
-cam1_vehicles_entering,0.007965590620186674,0.007965590620186674,Additional traffic pattern indicator
-cam3_scene_complexity,0.007715736464451072,0.007715736464451072,Additional traffic pattern indicator
-cam4_avg_vehicle_speed,0.007649922644711704,0.007649922644711704,Average speed estimate - lower speeds indicate congestion
-cam4_directional_flow_right,0.007603207199803832,0.007603207199803832,Additional traffic pattern indicator
-cam1_occupancy_by_zone_center,0.0075688567484711155,0.0075688567484711155,Measures road space occupied by vehicles - key congestion indicator
-cam4_avg_motion_magnitude,0.007110615774689989,0.007110615774689989,Vehicle movement patterns - distinguishes flowing vs stopped traffic
-cam4_scene_complexity,0.00671715967189615,0.00671715967189615,Additional traffic pattern indicator
-cam1_bus_count,0.006375660355447961,0.006375660355447961,Additional traffic pattern indicator
-cam3_speed_variance,0.006281777097035184,0.006281777097035184,Average speed estimate - lower speeds indicate congestion
-cam3_occupancy_by_zone_top,0.006049183563911862,0.006049183563911862,Measures road space occupied by vehicles - key congestion indicator
-cam4_scene_embedding_mean,0.005456104335934824,0.005456104335934824,Additional traffic pattern indicator
-cam4_density_score,0.005408489019898936,0.005408489019898936,Additional traffic pattern indicator
-cam3_occupancy_by_zone_left,0.005367835779043539,0.005367835779043539,Measures road space occupied by vehicles - key congestion indicator
-cam1_vehicles_in_lanes_middle,0.005196494815629744,0.005196494815629744,Additional traffic pattern indicator
-cam4_occupancy_by_zone_left,0.005071322577103319,0.005071322577103319,Measures road space occupied by vehicles - key congestion indicator
-cam3_vehicles_in_lanes_middle,0.004880527391974651,0.004880527391974651,Additional traffic pattern indicator
-cam4_motion_entropy,0.004169367155785726,0.004169367155785726,Vehicle movement patterns - distinguishes flowing vs stopped traffic
-cam1_vehicle_count,0.003881034844433639,0.003881034844433639,Number of vehicles detected - direct traffic volume measure
-cam1_occupancy_by_zone_top,0.0033337341938883625,0.0033337341938883625,Measures road space occupied by vehicles - key congestion indicator
-cam4_queue_length,0.003041063097532038,0.003041063097532038,Estimated queue length - critical for delay classification
-cam1_motorcycle_count,0.002142169834033514,0.002142169834033514,Additional traffic pattern indicator
-cam1_vehicles_in_lanes_left,0.001666933867524155,0.001666933867524155,Additional traffic pattern indicator
-cam4_occupancy_by_zone_top,0.001359248877237017,0.001359248877237017,Measures road space occupied by vehicles - key congestion indicator
-cam4_vehicles_in_lanes_left,0.0007146294513447067,0.0007146294513447067,Additional traffic pattern indicator
-cam1_vehicles_in_lanes_bottom,0.0,0.0,Additional traffic pattern indicator
-cam1_vehicles_in_lanes_top,0.0,0.0,Additional traffic pattern indicator
-cam2_vehicles_in_lanes_top,0.0,0.0,Additional traffic pattern indicator
-cam1_vehicles_in_lanes_right,0.0,0.0,Additional traffic pattern indicator
-cam1_vehicles_in_lanes_center,0.0,0.0,Additional traffic pattern indicator
-cam2_vehicles_in_lanes_middle,0.0,0.0,Additional traffic pattern indicator
+cam3_bus_count,0.021787610364714945,0.021787610364714945,Additional traffic pattern indicator
+cam3_scene_embedding_std,0.020934165772782315,0.020934165772782315,Additional traffic pattern indicator
+cam1_vehicles_exiting,0.020361840478837864,0.020361840478837864,Additional traffic pattern indicator
+cam3_occupancy_by_zone_center,0.02013107822692132,0.02013107822692132,Measures road space occupied by vehicles - key congestion indicator
+cam2_motion_entropy,0.020116791983915056,0.020116791983915056,Vehicle movement patterns - distinguishes flowing vs stopped traffic
+cam4_directional_flow_up,0.019839705546044396,0.019839705546044396,Additional traffic pattern indicator
+cam1_car_count,0.019405010246321595,0.019405010246321595,Additional traffic pattern indicator
+cam4_vehicles_exiting,0.017520106023898342,0.017520106023898342,Additional traffic pattern indicator
+cam4_directional_flow_left,0.017257607462927045,0.017257607462927045,Additional traffic pattern indicator
+cam4_avg_vehicle_speed,0.017248362725442824,0.017248362725442824,Average speed estimate - lower speeds indicate congestion
+cam3_occupancy_by_zone_left,0.016716940152698666,0.016716940152698666,Measures road space occupied by vehicles - key congestion indicator
+cam1_directional_flow_left,0.015906133069951336,0.015906133069951336,Additional traffic pattern indicator
+cam1_directional_flow_up,0.015862934641619714,0.015862934641619714,Additional traffic pattern indicator
+cam1_truck_count,0.014488035895463427,0.014488035895463427,Additional traffic pattern indicator
+cam3_occupancy_by_zone_top,0.01441681301560818,0.01441681301560818,Measures road space occupied by vehicles - key congestion indicator
+cam4_directional_flow_right,0.01418813394381133,0.01418813394381133,Additional traffic pattern indicator
+cam1_directional_flow_down,0.014079842375797243,0.014079842375797243,Additional traffic pattern indicator
+cam3_avg_motion_magnitude,0.013938755927803564,0.013938755927803564,Vehicle movement patterns - distinguishes flowing vs stopped traffic
+cam4_scene_embedding_std,0.013736403597214166,0.013736403597214166,Additional traffic pattern indicator
+cam4_occupancy_by_zone_left,0.013350347630688243,0.013350347630688243,Measures road space occupied by vehicles - key congestion indicator
+cam4_scene_embedding_mean,0.013228384379521603,0.013228384379521603,Additional traffic pattern indicator
+cam3_occupancy_by_zone_middle,0.013181539096090487,0.013181539096090487,Measures road space occupied by vehicles - key congestion indicator
+cam1_flow_rate,0.01288464866280576,0.01288464866280576,Vehicles per time unit - throughput measure
+cam3_scene_complexity,0.012846569912280097,0.012846569912280097,Additional traffic pattern indicator
+cam4_bus_count,0.012407803164822586,0.012407803164822586,Additional traffic pattern indicator
+cam4_motion_entropy,0.01212986648277004,0.01212986648277004,Vehicle movement patterns - distinguishes flowing vs stopped traffic
+cam1_vehicles_in_lanes_center,0.01177505354937647,0.01177505354937647,Additional traffic pattern indicator
+cam2_scene_complexity,0.011749213207911866,0.011749213207911866,Additional traffic pattern indicator
+cam2_flow_rate,0.011740473460032158,0.011740473460032158,Vehicles per time unit - throughput measure
+cam3_car_count,0.011391167977665937,0.011391167977665937,Additional traffic pattern indicator
+cam3_truck_count,0.01091627006881501,0.01091627006881501,Additional traffic pattern indicator
+cam4_scene_complexity,0.010824418196505377,0.010824418196505377,Additional traffic pattern indicator
+cam2_directional_flow_up,0.010807656466042677,0.010807656466042677,Additional traffic pattern indicator
+cam4_flow_rate,0.010635533916835416,0.010635533916835416,Vehicles per time unit - throughput measure
+cam1_stopped_vehicles,0.010568086508625878,0.010568086508625878,Additional traffic pattern indicator
+cam4_directional_flow_down,0.010521382066813453,0.010521382066813453,Additional traffic pattern indicator
+cam3_flow_rate,0.010169537157614143,0.010169537157614143,Vehicles per time unit - throughput measure
+cam1_avg_motion_magnitude,0.010094910075482362,0.010094910075482362,Vehicle movement patterns - distinguishes flowing vs stopped traffic
+cam3_density_score,0.01001868745086796,0.01001868745086796,Additional traffic pattern indicator
+cam3_speed_variance,0.00999278190009159,0.00999278190009159,Average speed estimate - lower speeds indicate congestion
+cam3_vehicles_in_lanes_middle,0.009908669036073401,0.009908669036073401,Additional traffic pattern indicator
+cam1_directional_flow_right,0.009876370586916837,0.009876370586916837,Additional traffic pattern indicator
+cam3_vehicles_in_lanes_center,0.0097515138476087,0.0097515138476087,Additional traffic pattern indicator
+cam1_queue_length,0.009701789968621831,0.009701789968621831,Estimated queue length - critical for delay classification
+cam3_stopped_vehicles,0.00957134892644784,0.00957134892644784,Additional traffic pattern indicator
+cam1_scene_complexity,0.009471640630376506,0.009471640630376506,Additional traffic pattern indicator
+cam4_car_count,0.009065974792907085,0.009065974792907085,Additional traffic pattern indicator
+cam1_occupancy_by_zone_center,0.009064942411074922,0.009064942411074922,Measures road space occupied by vehicles - key congestion indicator
+cam1_speed_variance,0.00905412018600049,0.00905412018600049,Average speed estimate - lower speeds indicate congestion
+cam4_occupancy_by_zone_middle,0.00884493733756429,0.00884493733756429,Measures road space occupied by vehicles - key congestion indicator
+cam1_vehicles_in_lanes_middle,0.008836530480991612,0.008836530480991612,Additional traffic pattern indicator
+cam1_motion_entropy,0.008820235088313623,0.008820235088313623,Vehicle movement patterns - distinguishes flowing vs stopped traffic
+cam2_directional_flow_left,0.008683108588005747,0.008683108588005747,Additional traffic pattern indicator
+cam4_speed_variance,0.008384032111817492,0.008384032111817492,Average speed estimate - lower speeds indicate congestion
+cam1_avg_vehicle_speed,0.008302060865739695,0.008302060865739695,Average speed estimate - lower speeds indicate congestion
+cam2_vehicles_exiting,0.008258502788381661,0.008258502788381661,Additional traffic pattern indicator
+cam3_avg_vehicle_speed,0.008190019500104374,0.008190019500104374,Average speed estimate - lower speeds indicate congestion
+cam3_vehicles_entering,0.008144165571577345,0.008144165571577345,Additional traffic pattern indicator
+cam4_stopped_vehicles,0.0077989085379877535,0.0077989085379877535,Additional traffic pattern indicator
+cam4_occupancy_by_zone_center,0.007661480204711739,0.007661480204711739,Measures road space occupied by vehicles - key congestion indicator
+cam3_vehicle_count,0.007505835539776441,0.007505835539776441,Number of vehicles detected - direct traffic volume measure
+cam4_truck_count,0.0075012758359555695,0.0075012758359555695,Additional traffic pattern indicator
+cam3_vehicles_in_lanes_top,0.0070925418118221424,0.0070925418118221424,Additional traffic pattern indicator
+cam1_scene_embedding_mean,0.006986049340099221,0.006986049340099221,Additional traffic pattern indicator
+cam4_avg_motion_magnitude,0.0068432708597091765,0.0068432708597091765,Vehicle movement patterns - distinguishes flowing vs stopped traffic
+cam3_directional_flow_left,0.006657020921617465,0.006657020921617465,Additional traffic pattern indicator
+cam1_bus_count,0.006531295227182663,0.006531295227182663,Additional traffic pattern indicator
+cam3_directional_flow_down,0.006481455568013743,0.006481455568013743,Additional traffic pattern indicator
+cam2_queue_length,0.006355924644768128,0.006355924644768128,Estimated queue length - critical for delay classification
+cam3_directional_flow_right,0.006244981616015667,0.006244981616015667,Additional traffic pattern indicator
+cam1_scene_embedding_std,0.006106614142070138,0.006106614142070138,Additional traffic pattern indicator
+cam1_occupancy_by_zone_middle,0.00606700106242013,0.00606700106242013,Measures road space occupied by vehicles - key congestion indicator
+cam1_density_score,0.006016373092040148,0.006016373092040148,Additional traffic pattern indicator
+cam2_avg_motion_magnitude,0.005994407058794664,0.005994407058794664,Vehicle movement patterns - distinguishes flowing vs stopped traffic
+cam2_vehicles_entering,0.005753601397129605,0.005753601397129605,Additional traffic pattern indicator
+cam3_directional_flow_up,0.005711645235405737,0.005711645235405737,Additional traffic pattern indicator
+cam2_scene_embedding_std,0.005610065908785047,0.005610065908785047,Additional traffic pattern indicator
+cam2_car_count,0.005384758570222986,0.005384758570222986,Additional traffic pattern indicator
+cam4_vehicles_in_lanes_top,0.005200694409418616,0.005200694409418616,Additional traffic pattern indicator
+cam4_vehicles_in_lanes_center,0.0050590332080912934,0.0050590332080912934,Additional traffic pattern indicator
+cam3_motion_entropy,0.0049924787480919094,0.0049924787480919094,Vehicle movement patterns - distinguishes flowing vs stopped traffic
+cam2_directional_flow_down,0.004955549905974294,0.004955549905974294,Additional traffic pattern indicator
+cam4_vehicle_count,0.0048730667920912595,0.0048730667920912595,Number of vehicles detected - direct traffic volume measure
+cam4_vehicles_in_lanes_middle,0.0048475108316968565,0.0048475108316968565,Additional traffic pattern indicator
+cam2_truck_count,0.004819383559416662,0.004819383559416662,Additional traffic pattern indicator
+cam4_vehicles_entering,0.004743948609742423,0.004743948609742423,Additional traffic pattern indicator
+cam4_density_score,0.004708221216068471,0.004708221216068471,Additional traffic pattern indicator
+cam1_vehicles_entering,0.004691270395772737,0.004691270395772737,Additional traffic pattern indicator
+cam1_vehicle_count,0.004690582107493606,0.004690582107493606,Number of vehicles detected - direct traffic volume measure
+cam2_scene_embedding_mean,0.004492300286992622,0.004492300286992622,Additional traffic pattern indicator
+cam3_scene_embedding_mean,0.004363413174284254,0.004363413174284254,Additional traffic pattern indicator
+cam4_queue_length,0.0043461909966475325,0.0043461909966475325,Estimated queue length - critical for delay classification
+cam1_vehicles_in_lanes_left,0.0038465047986364744,0.0038465047986364744,Additional traffic pattern indicator
+cam1_occupancy_by_zone_left,0.0037449806419497934,0.0037449806419497934,Measures road space occupied by vehicles - key congestion indicator
+cam2_bus_count,0.0036017860756783716,0.0036017860756783716,Additional traffic pattern indicator
+cam2_stopped_vehicles,0.003499416683241337,0.003499416683241337,Additional traffic pattern indicator
+cam3_vehicles_in_lanes_left,0.003303210981317992,0.003303210981317992,Additional traffic pattern indicator
+cam2_directional_flow_right,0.0032739722529177345,0.0032739722529177345,Additional traffic pattern indicator
+cam4_motorcycle_count,0.0030759030784337366,0.0030759030784337366,Additional traffic pattern indicator
+cam3_motorcycle_count,0.0030065864426299244,0.0030065864426299244,Additional traffic pattern indicator
+cam2_vehicles_in_lanes_middle,0.0029981939222981134,0.0029981939222981134,Additional traffic pattern indicator
+cam1_motorcycle_count,0.0029891624776049947,0.0029891624776049947,Additional traffic pattern indicator
+cam2_vehicles_in_lanes_left,0.002900945626527151,0.002900945626527151,Additional traffic pattern indicator
+cam4_occupancy_by_zone_top,0.0028867593348124985,0.0028867593348124985,Measures road space occupied by vehicles - key congestion indicator
+cam2_density_score,0.0027458468349672227,0.0027458468349672227,Additional traffic pattern indicator
+cam3_vehicles_exiting,0.0027227787397291893,0.0027227787397291893,Additional traffic pattern indicator
+cam2_speed_variance,0.002524101250289139,0.002524101250289139,Average speed estimate - lower speeds indicate congestion
+cam4_vehicles_in_lanes_left,0.00250105476054765,0.00250105476054765,Additional traffic pattern indicator
+cam2_occupancy_by_zone_top,0.002465625394793213,0.002465625394793213,Measures road space occupied by vehicles - key congestion indicator
+cam3_queue_length,0.002331607378079132,0.002331607378079132,Estimated queue length - critical for delay classification
+cam1_occupancy_by_zone_top,0.002324614336602304,0.002324614336602304,Measures road space occupied by vehicles - key congestion indicator
+cam1_vehicles_in_lanes_top,0.0021625797112623615,0.0021625797112623615,Additional traffic pattern indicator
+cam2_vehicle_count,0.002046025000700697,0.002046025000700697,Number of vehicles detected - direct traffic volume measure
+cam2_occupancy_by_zone_middle,0.0016554963042342931,0.0016554963042342931,Measures road space occupied by vehicles - key congestion indicator
+cam2_motorcycle_count,0.0016086872118317027,0.0016086872118317027,Additional traffic pattern indicator
+cam2_occupancy_by_zone_left,0.0015831207776783969,0.0015831207776783969,Measures road space occupied by vehicles - key congestion indicator
+cam2_vehicles_in_lanes_top,0.0014073004421196866,0.0014073004421196866,Additional traffic pattern indicator
+cam2_avg_vehicle_speed,0.0013085262038392347,0.0013085262038392347,Average speed estimate - lower speeds indicate congestion
+cam2_occupancy_by_zone_center,0.0012375794637796147,0.0012375794637796147,Measures road space occupied by vehicles - key congestion indicator
+cam2_vehicles_in_lanes_center,0.0010183338278821161,0.0010183338278821161,Additional traffic pattern indicator
+cam4_occupancy_by_zone_bottom,0.00032739797523305143,0.00032739797523305143,Measures road space occupied by vehicles - key congestion indicator
+cam4_vehicles_in_lanes_bottom,0.00031749561900485323,0.00031749561900485323,Additional traffic pattern indicator
+cam1_vehicles_in_lanes_bottom,0.0002873510065979046,0.0002873510065979046,Additional traffic pattern indicator
+cam1_occupancy_by_zone_bottom,0.00010833912651349457,0.00010833912651349457,Measures road space occupied by vehicles - key congestion indicator
 cam2_vehicles_in_lanes_bottom,0.0,0.0,Additional traffic pattern indicator
-cam2_vehicles_in_lanes_right,0.0,0.0,Additional traffic pattern indicator
-cam2_avg_vehicle_speed,0.0,0.0,Average speed estimate - lower speeds indicate congestion
-cam2_truck_count,0.0,0.0,Additional traffic pattern indicator
-cam1_occupancy_by_zone_right,0.0,0.0,Measures road space occupied by vehicles - key congestion indicator
-cam2_bus_count,0.0,0.0,Additional traffic pattern indicator
-cam1_occupancy_by_zone_middle,0.0,0.0,Measures road space occupied by vehicles - key congestion indicator
-cam1_occupancy_by_zone_bottom,0.0,0.0,Measures road space occupied by vehicles - key congestion indicator
-cam2_vehicles_in_lanes_center,0.0,0.0,Additional traffic pattern indicator
-cam2_vehicles_in_lanes_left,0.0,0.0,Additional traffic pattern indicator
-cam2_occupancy_by_zone_left,0.0,0.0,Measures road space occupied by vehicles - key congestion indicator
-cam2_vehicles_entering,0.0,0.0,Additional traffic pattern indicator
-cam2_stopped_vehicles,0.0,0.0,Additional traffic pattern indicator
-cam1_density_score,0.0,0.0,Additional traffic pattern indicator
-cam2_motorcycle_count,0.0,0.0,Additional traffic pattern indicator
-cam2_speed_variance,0.0,0.0,Average speed estimate - lower speeds indicate congestion
-cam2_vehicles_exiting,0.0,0.0,Additional traffic pattern indicator
-cam2_scene_complexity,0.0,0.0,Additional traffic pattern indicator
-cam2_occupancy_by_zone_center,0.0,0.0,Measures road space occupied by vehicles - key congestion indicator
-cam2_occupancy_by_zone_right,0.0,0.0,Measures road space occupied by vehicles - key congestion indicator
-cam4_occupancy_by_zone_right,0.0,0.0,Measures road space occupied by vehicles - key congestion indicator
-cam4_vehicles_in_lanes_bottom,0.0,0.0,Additional traffic pattern indicator
-cam2_car_count,0.0,0.0,Additional traffic pattern indicator
-cam4_vehicles_in_lanes_top,0.0,0.0,Additional traffic pattern indicator
-cam3_motorcycle_count,0.0,0.0,Additional traffic pattern indicator
-cam4_vehicles_in_lanes_right,0.0,0.0,Additional traffic pattern indicator
-cam2_flow_rate,0.0,0.0,Vehicles per time unit - throughput measure
-cam3_vehicles_in_lanes_right,0.0,0.0,Additional traffic pattern indicator
-cam2_queue_length,0.0,0.0,Estimated queue length - critical for delay classification
 cam3_vehicles_in_lanes_bottom,0.0,0.0,Additional traffic pattern indicator
-cam2_density_score,0.0,0.0,Additional traffic pattern indicator
+cam2_occupancy_by_zone_right,0.0,0.0,Measures road space occupied by vehicles - key congestion indicator
+cam2_vehicles_in_lanes_right,0.0,0.0,Additional traffic pattern indicator
+cam3_vehicles_in_lanes_right,0.0,0.0,Additional traffic pattern indicator
 cam3_occupancy_by_zone_right,0.0,0.0,Measures road space occupied by vehicles - key congestion indicator
-cam2_directional_flow_down,0.0,0.0,Additional traffic pattern indicator
 cam3_occupancy_by_zone_bottom,0.0,0.0,Measures road space occupied by vehicles - key congestion indicator
-cam2_directional_flow_up,0.0,0.0,Additional traffic pattern indicator
-cam2_directional_flow_right,0.0,0.0,Additional traffic pattern indicator
-cam2_directional_flow_left,0.0,0.0,Additional traffic pattern indicator
-cam2_motion_entropy,0.0,0.0,Vehicle movement patterns - distinguishes flowing vs stopped traffic
-cam2_avg_motion_magnitude,0.0,0.0,Vehicle movement patterns - distinguishes flowing vs stopped traffic
-cam4_occupancy_by_zone_bottom,0.0,0.0,Measures road space occupied by vehicles - key congestion indicator
-cam2_scene_embedding_std,0.0,0.0,Additional traffic pattern indicator
-cam2_scene_embedding_mean,0.0,0.0,Additional traffic pattern indicator
+cam1_occupancy_by_zone_right,0.0,0.0,Measures road space occupied by vehicles - key congestion indicator
 cam2_occupancy_by_zone_bottom,0.0,0.0,Measures road space occupied by vehicles - key congestion indicator
-cam2_occupancy_by_zone_middle,0.0,0.0,Measures road space occupied by vehicles - key congestion indicator
-cam2_occupancy_by_zone_top,0.0,0.0,Measures road space occupied by vehicles - key congestion indicator
-cam2_vehicle_count,0.0,0.0,Number of vehicles detected - direct traffic volume measure
+cam4_occupancy_by_zone_right,0.0,0.0,Measures road space occupied by vehicles - key congestion indicator
+cam4_vehicles_in_lanes_right,0.0,0.0,Additional traffic pattern indicator
+cam1_vehicles_in_lanes_right,0.0,0.0,Additional traffic pattern indicator

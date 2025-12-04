@@ -18,6 +18,7 @@ from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, accuracy_score
 import warnings
+import xgboost as xgb 
 warnings.filterwarnings('ignore')
 
 
@@ -72,11 +73,11 @@ class ANNPredictor:
     """
     
     def __init__(self,
-                 hidden_dims: List[int] = [256, 128, 64],
-                 dropout: float = 0.3,
-                 learning_rate: float = 1e-3,
+                 hidden_dims: List[int] = [64, 32],
+                 dropout: float = 0.2,
+                 learning_rate: float = 0.0001,
                  batch_size: int = 32,
-                 epochs: int = 100,
+                 epochs: int = 150,
                  early_stopping_patience: int = 10):
         """
         Initialize ANN predictor
@@ -184,6 +185,14 @@ class ANNPredictor:
             dropout=self.dropout
         ).to(self.device)
         
+        # weights per class
+        # free flowing: 1/314 = 0.003
+        # heavy delay:  1/47  = 0.021
+        class_counts = np.bincount(y)
+        class_weights = 1.0 / class_counts
+        class_weights = class_weights / class_weights.sum()
+        class_weights = torch.FloatTensor(class_weights).to(self.device)
+        
         # loss and optimizer
         criterion = nn.CrossEntropyLoss()
         optimizer = optim.Adam(self.model.parameters(), lr=self.learning_rate)
@@ -256,16 +265,6 @@ class ANNPredictor:
             else:
                 patience_counter += 1
             
-            if (epoch + 1) % 10 == 0 or epoch == 0:
-                print(f"Epoch {epoch+1}/{self.epochs} - "
-                      f"Train Loss: {train_loss:.4f} - "
-                      f"Val Loss: {val_loss:.4f} - "
-                      f"Val Acc: {val_acc:.4f}")
-            
-            if patience_counter >= self.early_stopping_patience:
-                print(f"\nEarly stopping at epoch {epoch+1}")
-                break
-        
         # get best model
         if best_model_state:
             self.model.load_state_dict(best_model_state)
@@ -380,7 +379,7 @@ def train_ann_pipeline(train_features_df: pd.DataFrame,
                        target_col: str,
                        model_save_path: str,
                        hidden_dims: List[int] = [256, 128, 64],
-                       epochs: int = 100) -> ANNPredictor:
+                       epochs: int = 200) -> ANNPredictor:
     """
     Complete ANN training pipeline
     
@@ -394,7 +393,7 @@ def train_ann_pipeline(train_features_df: pd.DataFrame,
     Returns:
         Trained ANNPredictor
     """
-    print(f"ANN Training pipeline for {target_col}")
+    print(f"\nANN Training pipeline for {target_col}")
     print(f"Dataset shape: {train_features_df.shape}")
     print(f"Target distribution:\n{train_features_df[target_col].value_counts()}")
     
@@ -418,3 +417,63 @@ def train_ann_pipeline(train_features_df: pd.DataFrame,
     predictor.save(model_save_path)
     
     return predictor
+
+def train_xgboost_pipeline(train_features_df: pd.DataFrame,
+                           target_col: str,
+                           model_save_path: str) -> Optional[xgb.XGBClassifier]:
+    """
+    XGBoost training pipeline - reuses ANNPredictor's prepare_features
+    """
+
+    print(f"\nXGBoost Training pipeline for {target_col}")
+    print(f"Dataset shape: {train_features_df.shape}")
+    print(f"Target distribution:\n{train_features_df[target_col].value_counts()}")
+    
+    # reuse ANNPredictor
+    predictor = ANNPredictor()
+    X, y = predictor.prepare_features(train_features_df, target_col=target_col, fit_scaler=True)
+    
+    # split
+    X_train, X_val, y_train, y_val = train_test_split(
+        X, y, test_size=0.2, random_state=42, stratify=y
+    )
+    
+    print(f"Training XGBoost on {len(X_train)} samples...")
+    print(f"Validation set: {len(X_val)} samples")
+    
+    # weights per sample
+    class_counts = np.bincount(y)
+    total = len(y)
+    class_weights = {i: total / (len(class_counts) * count) for i, count in enumerate(class_counts)}
+    sample_weights = np.array([class_weights[label] for label in y_train])
+    
+    # train
+    model = xgb.XGBClassifier(
+        n_estimators=200,
+        max_depth=6,
+        learning_rate=0.1,
+        random_state=42,
+        use_label_encoder=False,
+        eval_metric='mlogloss'
+    )
+    
+    model.fit(X_train, y_train, sample_weight=sample_weights, 
+              eval_set=[(X_val, y_val)], verbose=False)
+    
+    # evaluate
+    train_pred = model.predict(X_train)
+    val_pred = model.predict(X_val)
+    
+    print(f"\nTraining accuracy: {accuracy_score(y_train, train_pred):.4f}")
+    print(f"Validation accuracy: {accuracy_score(y_val, val_pred):.4f}")
+    
+    print("\nValidation Classification Report:")
+    print(classification_report(y_val, val_pred, target_names=predictor.label_encoder.classes_))
+    
+    # save
+    with open(model_save_path, 'wb') as f:
+        pickle.dump({'model': model, 'scaler': predictor.scaler, 
+                     'label_encoder': predictor.label_encoder}, f)
+    print(f"Model saved to {model_save_path}")
+    
+    return model

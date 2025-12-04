@@ -19,6 +19,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, accuracy_score
 import warnings
 import xgboost as xgb 
+from sklearn.metrics import classification_report, accuracy_score, confusion_matrix
+import seaborn as sns
+import matplotlib.pyplot as plt
 warnings.filterwarnings('ignore')
 
 
@@ -66,6 +69,22 @@ class CongestionANN(nn.Module):
         """Forward pass"""
         return self.network(x)
 
+def plot_confusion_matrix(y_true, y_pred, classes, title, save_path=None):
+    """Plot and save confusion matrix"""
+    cm = confusion_matrix(y_true, y_pred)
+    
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
+                xticklabels=classes, yticklabels=classes)
+    plt.title(title)
+    plt.ylabel('Actual')
+    plt.xlabel('Predicted')
+    plt.tight_layout()
+    
+    if save_path:
+        plt.savefig(save_path)
+        print(f"Confusion matrix saved to {save_path}")
+    plt.close()
 
 class ANNPredictor:
     """
@@ -153,9 +172,10 @@ class ANNPredictor:
         return train_loader, val_loader
     
     def train(self,
-             X: np.ndarray,
-             y: np.ndarray,
-             validation_split: float = 0.2) -> Dict:
+         X: np.ndarray,
+         y: np.ndarray,
+         validation_split: float = 0.2,
+         model_name: str = 'ann') -> Dict:
         """
         Train ANN
         
@@ -283,8 +303,16 @@ class ANNPredictor:
         print(classification_report(
             y_val, 
             self.label_encoder.transform(val_preds),
-            target_names=self.label_encoder.classes_
-        ))
+            target_names=self.label_encoder.classes_))
+
+        # confusion matrix
+        plot_confusion_matrix(
+            y_val, 
+            self.label_encoder.transform(val_preds),
+            self.label_encoder.classes_,
+            title=f'{model_name} Confusion Matrix',
+            save_path=f'models/confusion_matrix_{model_name}.png'
+        )
         
         return {
             'train_accuracy': train_acc,
@@ -411,7 +439,8 @@ def train_ann_pipeline(train_features_df: pd.DataFrame,
     )
     
     # train
-    metrics = predictor.train(X, y)
+    model_name = 'ann_enter' if 'enter' in target_col else 'ann_exit'
+    metrics = predictor.train(X, y, model_name=model_name)
     
     # save
     predictor.save(model_save_path)
@@ -470,6 +499,15 @@ def train_xgboost_pipeline(train_features_df: pd.DataFrame,
     print("\nValidation Classification Report:")
     print(classification_report(y_val, val_pred, target_names=predictor.label_encoder.classes_))
     
+    # confusion matrix
+    model_name = 'xgb_enter' if 'enter' in target_col else 'xgb_exit'
+    plot_confusion_matrix(
+        y_val, 
+        val_pred,
+        predictor.label_encoder.classes_,
+        title=f'{model_name} Confusion Matrix', 
+        save_path=f'models/confusion_matrix_{model_name}.png'
+    )
     # save
     with open(model_save_path, 'wb') as f:
         pickle.dump({'model': model, 'scaler': predictor.scaler, 

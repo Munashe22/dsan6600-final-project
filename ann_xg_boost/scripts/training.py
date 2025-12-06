@@ -4,7 +4,7 @@ Trains feedforward neural network from extracted video features.
 """
 import pandas as pd
 from pathlib import Path
-from ann_model import train_ann_pipeline, train_xgboost_pipeline
+from ann_xg_boost.scripts.model import train_ann_pipeline, train_xgboost_pipeline
 
 def main():
     # load features

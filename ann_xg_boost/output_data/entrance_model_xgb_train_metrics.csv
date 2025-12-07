@@ -1,0 +1,20 @@
+metric,value
+Accuracy,1.0
+Precision (Macro),1.0
+Precision (Weighted),1.0
+Recall (Macro),1.0
+Recall (Weighted),1.0
+F1-Score (Macro),1.0
+F1-Score (Weighted),1.0
+Precision - free flowing,1.0
+Recall - free flowing,1.0
+F1-Score - free flowing,1.0
+Precision - heavy delay,1.0
+Recall - heavy delay,1.0
+F1-Score - heavy delay,1.0
+Precision - light delay,1.0
+Recall - light delay,1.0
+F1-Score - light delay,1.0
+Precision - moderate delay,1.0
+Recall - moderate delay,1.0
+F1-Score - moderate delay,1.0

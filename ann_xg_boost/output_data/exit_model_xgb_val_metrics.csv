@@ -1,0 +1,20 @@
+metric,value
+Accuracy,0.9491525423728814
+Precision (Macro),0.2413793103448276
+Precision (Weighted),0.9327878433664524
+Recall (Macro),0.24561403508771928
+Recall (Weighted),0.9491525423728814
+F1-Score (Macro),0.24347826086956523
+F1-Score (Weighted),0.9408990420044215
+Precision - free flowing,0.9655172413793104
+Recall - free flowing,0.9824561403508771
+F1-Score - free flowing,0.9739130434782609
+Precision - heavy delay,0.0
+Recall - heavy delay,0.0
+F1-Score - heavy delay,0.0
+Precision - light delay,0.0
+Recall - light delay,0.0
+F1-Score - light delay,0.0
+Precision - moderate delay,0.0
+Recall - moderate delay,0.0
+F1-Score - moderate delay,0.0

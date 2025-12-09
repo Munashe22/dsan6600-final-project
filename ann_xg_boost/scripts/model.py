@@ -3,6 +3,8 @@ ANN Model Training for Traffic Congestion Prediction
 
 This module trains a simple feedforward neural network on extracted video features.
 Uses PyTorch, no backpropagation during inference, just forward pass.
+Portions of this module were drafted with assistance from AI tools
+and then reviewed, modified, and validated by the authors.
 """
 
 import pandas as pd
